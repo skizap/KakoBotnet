@@ -31,3 +31,11 @@ Email: gotenblack321@gmail.com<br>
 [ADDED] Client.py - Command ">http" now attacks with HTTP GET and has User-Agents<br>
 # 19/03/2018
 [ADDED] Client.py - New function makes the bot open the file on startup no matter what the file is called.
+# 08/04/2018
+Big update guys. Hope you like it!<br>
+[FIX] Client.py - Command ">shell" could only use 1 part of the command. Now it uses it all.<br>
+[ADDED] Client.py - New attack ">cnc" it rapidly connects to another specified botnet. While the attack is running, other users cannot connect to the targeted botnet.<br>
+[ADDED] Client.py - Use to only be able to send only 1 attack at a time. Now you can send up to 100 attacks at the same time.<br>
+[ADDED] Client.py - All DDoS attacks use threading now.<br>
+[ADDED] Kako.py - Dont we all just hate duplicated bots. Well now kako.py detects dups, and removes them.<br>
+[ADDED] Kako.py - Info on how to use the commands have been updated in ">help"<br>
