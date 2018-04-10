@@ -5,9 +5,9 @@ If I have made fixes I will post them here and state what was fixed<br>
 # Compiling
 If you are using linux do these steps:<br>
 sudo pip install cx_Freeze --upgrade<br>
-cxfreeze client.py
-cd dist
-and there you have it the new linux binary file
+cxfreeze client.py<br>
+cd dist<br>
+and there you have it the new linux binary file<br>
 # Contact Information
 Skype: live:zerefdragneelbro<br>
 Discord: [SuperNova] Law#6800<br>
