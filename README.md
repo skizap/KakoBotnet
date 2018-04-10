@@ -8,6 +8,8 @@ Ok so if you are trying to use this botnet for mass infecting busy boxes or some
 Skype: live:zerefdragneelbro<br>
 Discord: [SuperNova] Law#6800<br>
 Email: gotenblack321@gmail.com<br>
+# Known Issues
+1. Auto reconnect broke
 # Current Updates
 [FIX] Kako.py - Bots have been recently disconnecting for no reason. So I have fixed the issue<br>
 [ADDED] Client.py - Added auto reconnect functionality<br>
