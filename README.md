@@ -39,3 +39,6 @@ Big update guys. Hope you like it!<br>
 [ADDED] Client.py - All DDoS attacks use threading now.<br>
 [ADDED] Kako.py - Dont we all just hate duplicated bots. Well now kako.py detects dups, and removes them.<br>
 [ADDED] Kako.py - Info on how to use the commands have been updated in ">help"<br>
+# 10/04/2018
+[ADDED] Client.py - New command ">killattk" Stops all on going DDoS Attacks.<br>
+[ADDED] Kako.py - Information on how to use killattk has been added to ">help"<br>
