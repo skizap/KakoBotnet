@@ -13,7 +13,7 @@ Skype: live:zerefdragneelbro<br>
 Discord: [SuperNova] Law#6800<br>
 Email: gotenblack321@gmail.com<br>
 # Known Issues
-1 - Auto reconnect broke<br>
+None<br>
 # Current Updates
 [FIX] Kako.py - Bots have been recently disconnecting for no reason. So I have fixed the issue<br>
 [ADDED] Client.py - Added auto reconnect functionality<br>
@@ -48,3 +48,6 @@ Big update guys. Hope you like it!<br>
 # 10/04/2018
 [ADDED] Client.py - New command ">killattk" Stops all on going DDoS Attacks.<br>
 [ADDED] Kako.py - Information on how to use killattk has been added to ">help"<br>
+# 15/04/2018
+[FIXED] Client.py - Auto Reconnect should now be functioning perfectly fine<br>
+[FIXED] Client.py - DUP Removal was bugging out because of auto reconnect. Now its fixed, by sending a msg to close the bot<br>
