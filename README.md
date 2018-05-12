@@ -5,8 +5,8 @@ If I have made fixes I will post them here and state what was fixed<br>
 # Compiling
 If you are using linux do these steps:<br>
 sudo pip install pyinstaller<br>
-pyinstaller client.py<br>
-cd build<br>
+pyinstaller client.py --onefile<br>
+cd dist<br>
 and there you have it the new linux binary file<br>
 # Contact Information
 Skype: live:zerefdragneelbro<br>
