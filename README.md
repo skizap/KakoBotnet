@@ -4,8 +4,8 @@ This botnet may have a few bugs, but, for what I have seen it works so far<br>
 If I have made fixes I will post them here and state what was fixed<br>
 # Compiling
 If you are using linux do these steps:<br>
-sudo pip install cx_Freeze --upgrade<br>
-cxfreeze client.py<br>
+sudo pip install pyinstaller<br>
+pyinstaller client.py<br>
 cd dist<br>
 and there you have it the new linux binary file<br>
 # Contact Information
