@@ -51,3 +51,6 @@ Big update guys. Hope you like it!<br>
 # 15/04/2018
 [FIXED] Client.py - Auto Reconnect should now be functioning perfectly fine<br>
 [FIXED] Client.py - DUP Removal was bugging out because of auto reconnect. Now its fixed, by sending a msg to close the bot<br>
+# 24/05/2018
+[FIXED] Kako-Untested.py - Banned.txt wasn't being looked at properly; Fixed<br>
+[FIXED] Kako-Untested.py - New login system. Make a txt file named login.txt and input your username and password. Format: Username:Password<br>
