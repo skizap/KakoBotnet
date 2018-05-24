@@ -62,7 +62,7 @@ def clientThread(conn):
 			lines = login.readlines()
 
 		for line in lines:
-			if line.split(":")[0] == username:# and line.split(":")[1] == password:
+			if line.split(":")[0] == username and line.split(":")[1] == password:
 				conn.sendall("[>] Welcome to the Kako Botnet [<]\r\n")
 				conn.sendall("[?] Please use the custom client.py made by Law\r\n")
 				conn.sendall("[?] Type >help for a list of commands\r\n")
