@@ -10,7 +10,7 @@ cd dist<br>
 and there you have it the new linux binary file<br>
 # Contact Information
 Skype: live:zerefdragneelbro<br>
-Discord: [SuperNova] Law#6800<br>
+Discord: Feitan#6800<br>
 Email: gotenblack321@gmail.com<br>
 # Known Issues
 None<br>
