@@ -47,7 +47,6 @@ def clientThread(conn):
 			ip = load(urlopen('http://jsonip.com'))['ip']
 			if ip in bannedLine:
 				conn.send("[!] Your IP Address has been banned.\r\n")
-				conn.send("[>] Please contact live:zerefdragneelbro on Skype, or [SuperNova] Law#6800 on Discord. For this to be removed. [<]\r\n")
 				clientDisconnect()
 				sys.exit()
 			else:
