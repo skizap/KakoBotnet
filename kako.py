@@ -40,14 +40,18 @@ def clientThread(conn):
 		
 		createBanned = file("banned.txt", "a")
 		banned = file("banned.txt")
-		ip = load(urlopen('http://jsonip.com'))['ip']
-		if ip in banned:
-			conn.send("[!] Your IP Address has been banned.\r\n")
-			conn.send("[>] Please contact live:zerefdragneelbro on Skype, or [SuperNova] Law#6800 on Discord. For this to be removed. [<]\r\n")
-			clientDisconnect()
-			sys.exit()
-		else:
-			pass
+		with open("banned.txt", "r") as banned:
+			bannedLines = banned.readlines()
+
+		for bannedLine in bannedLines:
+			ip = load(urlopen('http://jsonip.com'))['ip']
+			if ip in bannedLine:
+				conn.send("[!] Your IP Address has been banned.\r\n")
+				conn.send("[>] Please contact live:zerefdragneelbro on Skype, or [SuperNova] Law#6800 on Discord. For this to be removed. [<]\r\n")
+				clientDisconnect()
+				sys.exit()
+			else:
+				pass
 
 		def rank(conn, prefix="Rank: "):
 			conn.send(prefix)
