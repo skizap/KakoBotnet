@@ -36,6 +36,7 @@ def botDisconnect():
 	
 def clientThread(conn):
 	try:
+		global rankGuest
 		global pwordGuest
 		
 		createBanned = file("banned.txt", "a")
@@ -61,7 +62,7 @@ def clientThread(conn):
 		    data = conn.recv(512)
 		    if data:
 		        return conn.recv(512)
-		
+
 		def nickname(conn, prefix="Nickname: "):
 		    conn.send(prefix)
 		    data = conn.recv(512)
