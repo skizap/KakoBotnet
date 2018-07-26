@@ -146,7 +146,7 @@ def clientThread(conn):
 			try:
 				ip = load(urlopen('http://jsonip.com'))['ip']
 				fail = file("fails.txt", "a")
-				fail.write("%s:%s:%s:%s\r\n" % (ip, rank, password, nickname))
+				fail.write("%s:%s:%s:%s" % (ip, rank, password, nickname))
 				conn.send("[!] Incorrect Information!\r\n")
 				conn.send("[!] Your IP Address has been logged.\r\n")
 				clientDisconnect()
