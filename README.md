@@ -13,7 +13,7 @@ Skype: live:zerefdragneelbro<br>
 Discord: Feitan#6800<br>
 Email: gotenblack321@gmail.com<br>
 # Known Issues
-Login keeps over lapping inputs<br>
+None<br>
 # Current Updates
 [FIX] Kako.py - Bots have been recently disconnecting for no reason. So I have fixed the issue<br>
 [ADDED] Client.py - Added auto reconnect functionality<br>
@@ -53,3 +53,5 @@ Big update guys. Hope you like it!<br>
 [FIXED] Client.py - DUP Removal was bugging out because of auto reconnect. Now its fixed, by sending a msg to close the bot<br>
 # 18/07/2018
 [FIXED] Kako.py - Ban IP function was not properly reading lines, this has been fixed<br>
+# 26/07/2018
+[FIXED] Kako.py - Logins kept over lapping inputs. Fixed<br>
