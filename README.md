@@ -13,7 +13,7 @@ Skype: live:zerefdragneelbro<br>
 Discord: Feitan#6800<br>
 Email: gotenblack321@gmail.com<br>
 # Known Issues
-None<br>
+Login keeps over lapping inputs<br>
 # Current Updates
 [FIX] Kako.py - Bots have been recently disconnecting for no reason. So I have fixed the issue<br>
 [ADDED] Client.py - Added auto reconnect functionality<br>
