@@ -55,3 +55,5 @@ Big update guys. Hope you like it!<br>
 [FIXED] Kako.py - Ban IP function was not properly reading lines, this has been fixed<br>
 # 26/07/2018
 [FIXED] Kako.py - Logins kept over lapping inputs. Fixed<br>
+# 02/08/2018
+[ADDED] Kako.py - New login system read code for instructions<br>
