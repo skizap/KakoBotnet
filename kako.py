@@ -42,7 +42,6 @@ def botDisconnect():
 def clientThread(conn):
 	try:
 		ip = load(urlopen('http://jsonip.com'))['ip']
-		#ip = "127.0.0.1"
 		createBanned = file("banned.txt", "a")
 		banned = file("banned.txt")
 		with open("banned.txt", "r") as banned:
@@ -205,6 +204,17 @@ def clientThread(conn):
 						except:
 							break
 						if not message:
+							try:
+								adminIP.remove("%s | %s" % (username, ip))
+								admin.remove(username)
+							except:
+								pass
+							try:
+								userIP.remove("%s | %s" % (username, ip))
+								user.remove(username)
+							except:
+								pass
+							conn.close()
 							break
 				else:
 					attempts += 1
@@ -222,18 +232,8 @@ def clientThread(conn):
 							clientDisconnect()
 							conn.close()
 	except:
-		try:
-			adminIP.remove("%s | %s" % (username, ip))
-			admin.remove(username)
-		except:
-			pass
-		try:
-			userIP.remove("%s | %s" % (username, ip))
-			user.remove(username)
-		except:
-			pass
 		clientDisconnect()
-		sys.exit()
+		pass
 
 def startClient():
 	host = connect
