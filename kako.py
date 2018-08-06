@@ -1,5 +1,6 @@
 # To create an account make a file called "login.txt" and follow instructions below.
 # Login Format: Username:Password:ID, (Admin: 1 | Others: 0)
+# Issue - IP Variable retrieves the hosting machines IP, not the connecting user.
 import sys
 import time
 import socket
