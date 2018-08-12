@@ -13,6 +13,7 @@ Skype: live:zerefdragneelbro<br>
 Discord: Feitan#6800<br>
 Email: gotenblack321@gmail.com<br>
 # Known Issues
+I kindaaa broke the login system XD<br>
 The code that retrieves the connected users IP is broken<br>
 # Current Updates
 [FIX] Kako.py - Bots have been recently disconnecting for no reason. So I have fixed the issue<br>
