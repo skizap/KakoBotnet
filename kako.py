@@ -62,9 +62,7 @@ def clientThread(conn):
 
 		def password(conn, prefix="Password: "):
 		    conn.send(prefix)
-		    data = conn.recv(512)
-		    if data:
-		        return conn.recv(512)
+		    return conn.recv(512)
 
 		createLogin = file("login.txt", "a")
 
