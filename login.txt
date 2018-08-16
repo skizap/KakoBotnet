@@ -1,0 +1,2 @@
+Admin:Password:1
+Guest:Password:0
